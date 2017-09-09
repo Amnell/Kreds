@@ -1,6 +1,6 @@
 import XCTest
-@testable import KredsTests
+@testable import KredsLibTests
 
 XCTMain([
-    testCase(KredsTests.allTests),
+    testCase(KredsLibTests.allTests),
 ])
