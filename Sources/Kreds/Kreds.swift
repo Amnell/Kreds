@@ -5,8 +5,3 @@ struct Kreds {
     static let generatedSwiftKredsFilename = "Kreds.generated.swift"
     static let generatedObjectiveCKreds = "Kreds.generated.h"
 }
-
-// Default values for non-optional Commander Options
-struct EnvironmentKeys {
-  static let xcodeproj = "$SRCROOT"
-}
