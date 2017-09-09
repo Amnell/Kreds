@@ -33,12 +33,12 @@ class KredsLibTests: XCTestCase {
          Property(name: "property3", value: "value3")
       ]
       let group = Group(name: "GroupName", properties: properties)
-      let result = group.stringRepresentation(forLanguage: .swift)
+      let result = SwiftSourceGenerator().generate(forGroup: group)
       let expectedResult = """
                            struct GroupName {
-                              static let property1 = \"value1\"
-                              static let property2 = \"value2\"
-                              static let property3 = \"value3\"
+                               static let property1 = \"value1\"
+                               static let property2 = \"value2\"
+                               static let property3 = \"value3\"
                            }
                            """
       XCTAssertEqual(result, expectedResult)
@@ -51,7 +51,7 @@ class KredsLibTests: XCTestCase {
          Property(name: "property3", value: "value3")
       ]
       let group = Group(name: "GroupName", properties: properties)
-      let result = group.stringRepresentation(forLanguage: .objc)
+      let result = ObjectiveCSourceGenerator().generate(forGroup: group)
       let expectedResult = """
                            // GroupName
                            NSString *const kGroupNameProperty1 = @\"value1\";
@@ -62,16 +62,17 @@ class KredsLibTests: XCTestCase {
    }
 
     func testSwiftPropertyToString() {
-      let propertyType = Property(name: "Property Name", value: "value")
+      let property = Property(name: "Property Name", value: "value")
       let expected = "static let propertyName = \"value\""
-      XCTAssertEqual(expected, propertyType.stringRepresentation(inGroup: Group(name: "Bogus", properties: []), forLanguage: .swift))
+      let group = Group(name: "Bogus", properties: [])
+      XCTAssertEqual(expected, SwiftSourceGenerator().generate(property: property, forGroup: group))
     }
 
     func testObjcPropertyToString() {
       let group = Group(name: "GroupName", properties: [])
-      let propertyType = Property(name: "Property Name", value: "value")
+      let property = Property(name: "Property Name", value: "value")
       let expected = "NSString *const kGroupNamePropertyName = @\"value\";"
-      XCTAssertEqual(expected, propertyType.stringRepresentation(inGroup: group, forLanguage: .objc))
+      XCTAssertEqual(expected, ObjectiveCSourceGenerator().generate(property: property, forGroup: group))
     }
 
     static var allTests = [
