@@ -1,6 +1,6 @@
 import Foundation
 
 internal enum Language {
-   case swift
-   case objc
+    case swift
+    case objc
 }
