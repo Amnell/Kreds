@@ -1,18 +1,28 @@
 import Foundation
 
 internal struct SwiftSourceGenerator: KredsGeneratorType {
-    func generate(forGroup: Group) -> String {
+    func source(forGroup: Group, tabLevel level: Int = 0) -> String {
         var strings: [String] = []
-        strings.append("struct \(forGroup.name) {")
+        strings.append(Tab.level(level) + "struct \(forGroup.name) {")
         forGroup.properties.forEach({
-           strings.append("    " + self.generate(property: $0, forGroup: forGroup))
+            strings.append(self.source(property: $0, forGroup: forGroup, tabLevel: level + 1))
         })
-        strings.append("}")
+        strings.append(Tab.level(level) + "}")
         return strings.joined(separator: "\n")
     }
+    
+    func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
+        var strings: [String] = []
+        strings.append(Tab.level(level) + "struct Kreds {")
+        groups.forEach({
+            strings.append(self.source(forGroup: $0, tabLevel: level + 1))
+        })
+        strings.append(Tab.level(level) + "}")
+        return strings.joined(separator: "\n\n")
+    }
 
-    func generate(property: Property, forGroup group: Group) -> String {
-        return "static let \(property.name.toSwiftVariableName()) = \"\(property.value)\""
+    func source(property: Property, forGroup group: Group, tabLevel level: Int = 0) -> String {
+        return Tab.level(level) + "static let \(property.name.toSwiftVariableName()) = \"\(property.value)\""
     }
 }
 
