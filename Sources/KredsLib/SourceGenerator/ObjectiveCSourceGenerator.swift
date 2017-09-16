@@ -1,7 +1,7 @@
 import Foundation
 
 internal struct ObjectiveCSourceGenerator: KredsGeneratorType {
-    func source(forGroup group: Group, tabLevel level: Int = 0) -> String {
+    static func source(forGroup group: Group, tabLevel level: Int = 0) -> String {
         var strings: [String] = []
         strings.append("// \(group.name)")
         group.properties.forEach({
@@ -10,7 +10,7 @@ internal struct ObjectiveCSourceGenerator: KredsGeneratorType {
         return strings.joined(separator: "\n")
     }
     
-    func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
+    static func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
         var strings: [String] = []
         groups.forEach({
             strings.append(self.source(forGroup: $0))
@@ -18,7 +18,7 @@ internal struct ObjectiveCSourceGenerator: KredsGeneratorType {
         return strings.joined(separator: "\n\n")
     }
 
-    func source(property: Property, forGroup group: Group, tabLevel level: Int = 0) -> String {
+    static func source(property: Property, forGroup group: Group, tabLevel level: Int = 0) -> String {
         let constName = "\(group.name) \(property.name)".toObjCConstName()
         return "NSString *const \(constName) = @\"\(property.value)\";"
     }

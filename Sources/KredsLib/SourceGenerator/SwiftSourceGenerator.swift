@@ -1,7 +1,7 @@
 import Foundation
 
 internal struct SwiftSourceGenerator: KredsGeneratorType {
-    func source(forGroup: Group, tabLevel level: Int = 0) -> String {
+    static func source(forGroup: Group, tabLevel level: Int = 0) -> String {
         var strings: [String] = []
         strings.append(Tab.level(level) + "struct \(forGroup.name) {")
         forGroup.properties.forEach({
@@ -11,7 +11,7 @@ internal struct SwiftSourceGenerator: KredsGeneratorType {
         return strings.joined(separator: "\n")
     }
     
-    func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
+    static func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
         var strings: [String] = []
         strings.append(Tab.level(level) + "struct Kreds {")
         groups.forEach({
@@ -21,7 +21,7 @@ internal struct SwiftSourceGenerator: KredsGeneratorType {
         return strings.joined(separator: "\n\n")
     }
 
-    func source(property: Property, forGroup group: Group, tabLevel level: Int = 0) -> String {
+    static func source(property: Property, forGroup group: Group, tabLevel level: Int = 0) -> String {
         return Tab.level(level) + "static let \(property.name.toSwiftVariableName()) = \"\(property.value)\""
     }
 }

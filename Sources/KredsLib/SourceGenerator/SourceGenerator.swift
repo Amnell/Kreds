@@ -7,6 +7,6 @@ internal struct Tab {
 
 internal protocol KredsGeneratorType {
     associatedtype T
-    func source(forGroup: Group, tabLevel: Int) -> T
-    func source(forGroups: [Group], tabLevel: Int) -> T
+    static func source(forGroup: Group, tabLevel: Int) -> T
+    static func source(forGroups: [Group], tabLevel: Int) -> T
 }

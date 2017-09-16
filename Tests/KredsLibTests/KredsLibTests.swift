@@ -33,7 +33,7 @@ class KredsLibTests: XCTestCase {
             Property(name: "property3", value: "value3")
         ]
         let group = Group(name: "GroupName", properties: properties)
-        let result = SwiftSourceGenerator().source(forGroup: group)
+        let result = SwiftSourceGenerator.source(forGroup: group)
         let expectedResult = """
                            struct GroupName {
                                static let property1 = \"value1\"
@@ -51,7 +51,7 @@ class KredsLibTests: XCTestCase {
             Property(name: "property3", value: "value3")
         ]
         let group = Group(name: "GroupName", properties: properties)
-        let result = SwiftSourceGenerator().source(forGroups: [group, group])
+        let result = SwiftSourceGenerator.source(forGroups: [group, group])
         let expectedResult =
         """
         struct Kreds {
@@ -80,7 +80,7 @@ class KredsLibTests: XCTestCase {
             Property(name: "property3", value: "value3")
         ]
         let group = Group(name: "GroupName", properties: properties)
-        let result = ObjectiveCSourceGenerator().source(forGroup: group)
+        let result = ObjectiveCSourceGenerator.source(forGroup: group)
         let expectedResult = """
                            // GroupName
                            NSString *const kGroupNameProperty1 = @\"value1\";
@@ -97,7 +97,7 @@ class KredsLibTests: XCTestCase {
             Property(name: "property3", value: "value3")
         ]
         let group = Group(name: "GroupName", properties: properties)
-        let result = ObjectiveCSourceGenerator().source(forGroups: [group, group])
+        let result = ObjectiveCSourceGenerator.source(forGroups: [group, group])
         let expectedResult =
         """
         // GroupName
@@ -117,7 +117,7 @@ class KredsLibTests: XCTestCase {
         let property = Property(name: "Property Name", value: "value")
         let expected = "static let propertyName = \"value\""
         let group = Group(name: "Bogus", properties: [])
-        XCTAssertEqual(expected, SwiftSourceGenerator().source(property: property, forGroup: group))
+        XCTAssertEqual(expected, SwiftSourceGenerator.source(property: property, forGroup: group))
     }
     
     func testObjcPropertyToString() {
