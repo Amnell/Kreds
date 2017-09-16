@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
   spec.social_media_url   = "https://twitter.com/amnell"
 
   spec.requires_arc = true
-  spec.source = { :http => "https://github.com/amnell/Kreds/releases/download/v#{spec.version}/kreds-#{spec.version}.zip" }
+  spec.source = { :http => "https://github.com/amnell/Kreds/releases/download/v#{spec.version}/kreds-v#{spec.version}.zip" }
 
   spec.ios.deployment_target     = '9.0'
   spec.tvos.deployment_target    = '9.0'
