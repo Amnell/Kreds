@@ -9,7 +9,7 @@ internal struct ObjectiveCSourceGenerator: KredsGeneratorType {
         })
         return strings.joined(separator: "\n")
     }
-    
+
     static func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
         var strings: [String] = []
         groups.forEach({

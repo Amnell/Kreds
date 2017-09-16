@@ -3,14 +3,14 @@ import Foundation
 internal struct SwiftSourceGenerator: KredsGeneratorType {
     static func source(forGroup: Group, tabLevel level: Int = 0) -> String {
         var strings: [String] = []
-        strings.append(Tab.level(level) + "struct \(forGroup.name) {")
+        strings.append(Tab.level(level) + "struct \(forGroup.name.toSwiftStructName()) {")
         forGroup.properties.forEach({
             strings.append(self.source(property: $0, forGroup: forGroup, tabLevel: level + 1))
         })
         strings.append(Tab.level(level) + "}")
         return strings.joined(separator: "\n")
     }
-    
+
     static func source(forGroups groups: [Group], tabLevel level: Int = 0) -> String {
         var strings: [String] = []
         strings.append(Tab.level(level) + "struct Kreds {")
