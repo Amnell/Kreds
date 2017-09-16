@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "Kreds",
+    name: "kreds",
     products: [
         // Products define the executables and libraries produced by a package, and make them visible to other packages.
         .library(
@@ -17,7 +17,7 @@ let package = Package(
     ],
     targets: [
         .target(
-          name: "Kreds",
+          name: "kreds",
           dependencies: ["KredsLib"]
         ),
         .target(
