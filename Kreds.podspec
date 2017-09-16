@@ -22,4 +22,6 @@ Pod::Spec.new do |spec|
   spec.ios.deployment_target     = '9.0'
   spec.tvos.deployment_target    = '9.0'
 
+  spec.preserve_paths = "kreds"
+
 end
