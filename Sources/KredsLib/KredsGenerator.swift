@@ -1,52 +1,41 @@
 import Foundation
 
+enum KredsGeneratorError: Error {
+    case fileLoadFailed
+}
+
+public enum Language {
+    case swift
+    case objc
+}
+
 public struct KredsGenerator {
-   private let infile: String
-
-   init(infile: String) {
-      self.infile = infile
-   }
-
-   internal static func generateGroup(name: String, properties: [String: Any]) -> Group {
-      var propertyTypes: [Property] = []
-      for (key, value) in properties {
-         propertyTypes.append(Property(name: key, value: value))
-      }
-      return Group(name: name, properties: propertyTypes)
-   }
-
-   // func writeToFiles() {
-   // if let content = NSDictionary(contentsOfFile: infile) {
-   //       var swiftFileRows: [String] = []
-   //       swiftFileRows.append("struct Kreds {")
-   //       for (key, value) in content {
-   //          guard let key = key as? String else { continue }
-   //          guard let values = value as? [String: Any] else { continue }
-   //          swiftFileRows.append("\t" + KredsGenerator.generateSwiftStruct(name: key, properties: values).stringRepresentation())
-   //       }
-   //       swiftFileRows.append("}")
-   //
-   //       var objectiveCFileRows: [String] = []
-   //       for (key, value) in content {
-   //          guard let key = key as? String else { continue }
-   //          guard let values = value as? [String: Any] else { continue }
-   //          objectiveCFileRows.append(KredsGenerator.generateObjCConstants(name: key, properties: values))
-   //       }
-   //
-   //       do {
-   //          try swiftFileRows.joined(separator: "\n").write(toFile: outfileSwift, atomically: true, encoding: String.Encoding.utf8)
-   //       }
-   //       catch let e {
-   //          print(e)
-   //       }
-   //
-   //       do {
-   //          try objectiveCFileRows.joined(separator: "\n").write(toFile: outfileObjectiveC, atomically: true, encoding: String.Encoding.utf8)
-   //       }
-   //       catch let e {
-   //          print(e)
-   //       }
-   //    }
-   // }
-
+    private static func read(fileUrl: URL) throws -> [String: Any] {
+        if let content = NSDictionary(contentsOf: fileUrl) as? [String: Any] {
+            return content
+        }
+        else {
+            throw KredsGeneratorError.fileLoadFailed
+        }
+    }
+    
+    public static func generate(sourceUrl: URL, destinationUrl: URL, languages: [Language]) throws {
+        let dictionary = try KredsGenerator.read(fileUrl: sourceUrl)
+        let groups = Group.array(fromDictionary: dictionary)
+        
+        print(destinationUrl.appendingPathComponent("Kreds.generated.swift", isDirectory: false))
+        
+        try languages.forEach { (language) in
+            switch language {
+            case .swift:
+                try SwiftSourceGenerator.source(forGroups: groups)
+                    .write(to: destinationUrl.appendingPathComponent("Kreds.generated.swift", isDirectory: false), atomically: true, encoding: String.Encoding.utf8)
+            case .objc:
+                try ObjectiveCSourceGenerator.source(forGroups: groups)
+                    .write(to: destinationUrl.appendingPathComponent("Kreds.generated.h", isDirectory: false), atomically: true, encoding: String.Encoding.utf8)
+            }
+            
+        }
+    }
+    
 }

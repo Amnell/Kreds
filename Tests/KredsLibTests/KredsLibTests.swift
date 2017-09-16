@@ -124,7 +124,26 @@ class KredsLibTests: XCTestCase {
         let group = Group(name: "GroupName", properties: [])
         let property = Property(name: "Property Name", value: "value")
         let expected = "NSString *const kGroupNamePropertyName = @\"value\";"
-        XCTAssertEqual(expected, ObjectiveCSourceGenerator().source(property: property, forGroup: group))
+        XCTAssertEqual(expected, ObjectiveCSourceGenerator.source(property: property, forGroup: group))
+    }
+    
+    func testDictionaryToGroups() {
+        let sourceDict = [
+            "service1": [
+                "property1": "value1",
+                "property2": "value2",
+                "property3": "value3",
+            ],
+            "service2": [
+                "property2-1": "value2-1",
+                "property2-2": "value2-2",
+                "property2-3": "value2-3",
+            ]
+        ]
+        
+        let result = Group.array(fromDictionary: sourceDict)
+        XCTAssertEqual(result.count, 2)
+        XCTAssertEqual(result.first?.properties.count, 3)
     }
     
     static var allTests = [

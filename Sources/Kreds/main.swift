@@ -13,8 +13,11 @@ let generate = command(
     Argument<String>("inputFile", description: "The input plist file"),
     Argument<String>("destination", description: "The destination path")
 ) { inputFile, destination in
-    let outputURL = URL(fileURLWithPath: destination).appendingPathComponent(Kreds.generatedSwiftKredsFilename, isDirectory: false)
-    print("outputURL: \(outputURL)")
+    let sourceURL = URL(fileURLWithPath: inputFile)
+    let destinationURL = URL(fileURLWithPath: destination, isDirectory: true)
+    print(sourceURL.absoluteString)
+    print(destinationURL.absoluteString)
+    try! KredsGenerator.generate(sourceUrl: sourceURL, destinationUrl: destinationURL, languages: [.swift, .objc])
 }
 
 let group = Group()
