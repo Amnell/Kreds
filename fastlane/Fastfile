@@ -10,13 +10,8 @@ lane :release do |options|
 
   git_pull
 
-  libraryVersionUsed = read_podspec['dependencies']['R.swift.Library'].first
-  unless prompt(text: "R.swift.Library #{libraryVersionUsed} is defined as dependency.\nAdjust podspec now if needed. Ready to continue?".green, boolean: true, ci_input: "")
-    raise "Aborted by user".red
-  end
-
   currentVersion = version_get_podspec()
-  Helper.log.info "Current R.swift podspec version is #{currentVersion}"
+  Helper.log.info "Current Kreds podspec version is #{currentVersion}"
 
   isPrerelease = false
   bumpType = prompt(text: "What kind of release is this? (major/minor/patch/custom)".green, boolean: false, ci_input: "")
@@ -77,8 +72,8 @@ lane :release do |options|
   push_to_git_remote
 
   af_create_github_release(
-    owner: 'mac-cain13',
-    repository: 'r.swift',
+    owner: 'amnell',
+    repository: 'Kreds',
     tag_name: "v#{newVersion}",
     target_commitish: 'master',
     name: "#{newVersion}",
@@ -91,34 +86,4 @@ lane :release do |options|
   )
 
   pod_push
-end
-
-desc "Runs all the tests"
-lane :runalltests do
-  cocoapods(repo_update: false)
-
-  sh "cd .. && swift test && mkdir -p build/debug && cp .build/debug/kreds build/debug"
-
-  scan(
-    workspace: "ResourceApp.xcworkspace",
-    scheme: "ResourceApp",
-    sdk: "iphonesimulator",
-    destination: "name=iPhone SE",
-    clean: true
-  )
-  scan(
-    workspace: "ResourceApp.xcworkspace",
-    scheme: "ResourceApp-tvOS",
-    destination: "name=Apple TV 1080p",
-    clean: true
-  )
-end
-
-error do |lane, exception|
-  unless is_ci
-    notification(
-      title: "R.swift #{lane}",
-      message: "❌ Failed with an exception."
-    )
-  end
 end

@@ -34,11 +34,6 @@ xcode-select --install
 fastlane release
 ```
 
-### runalltests
-```
-fastlane runalltests
-```
-Runs all the tests
 
 ----
 
