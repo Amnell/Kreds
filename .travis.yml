@@ -1,6 +1,8 @@
 os:
   - osx
-language: generic
+language: objective-c
+env:
+  - TOOLCHAINS=swift
 sudo: required
 dist: trusty
 osx_image: xcode9.0
