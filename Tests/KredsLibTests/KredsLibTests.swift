@@ -146,6 +146,20 @@ class KredsLibTests: XCTestCase {
         XCTAssertEqual(result.first?.properties.count, 3)
     }
 
+    func testUppercaseFirstLetter() {
+        XCTAssertEqual(String.uppercasedFirstLetter("thisIsASentence"), "ThisIsASentence")
+        XCTAssertEqual(String.uppercasedFirstLetter("thisIsASentence"), "ThisIsASentence")
+        XCTAssertEqual(String.uppercasedFirstLetter("1ThisIsASentence"), "1ThisIsASentence")
+        XCTAssertEqual(String.uppercasedFirstLetter("öThisIsASentence"), "ÖThisIsASentence")
+    }
+
+    func testLowercaseFirstLetter() {
+        XCTAssertEqual(String.lowercasingFirstLetter("ThisIsASentence"), "thisIsASentence")
+        XCTAssertEqual(String.lowercasingFirstLetter("ThisIsASentence"), "thisIsASentence")
+        XCTAssertEqual(String.lowercasingFirstLetter("1ThisIsASentence"), "1ThisIsASentence")
+        XCTAssertEqual(String.lowercasingFirstLetter("ÖThisIsASentence"), "öThisIsASentence")
+    }
+
     static var allTests = [
         ("testSwiftStructName", testSwiftStructName),
         ("testSwiftPropertyName", testSwiftPropertyName),
@@ -153,6 +167,8 @@ class KredsLibTests: XCTestCase {
         ("testSwiftGroupGenerator", testSwiftGroupGenerator),
         ("testSwiftPropertyToString", testSwiftPropertyToString),
         ("testObjcPropertyToString", testObjcPropertyToString),
-        ("testObjectiveCGroupGenerator", testObjectiveCGroupGenerator)
+        ("testObjectiveCGroupGenerator", testObjectiveCGroupGenerator),
+        ("testLowercaseFirstLetter", testLowercaseFirstLetter),
+        ("testUppercaseFirstLetter", testUppercaseFirstLetter)
     ]
 }
