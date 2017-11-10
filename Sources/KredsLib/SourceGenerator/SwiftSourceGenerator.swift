@@ -31,7 +31,7 @@ internal extension String {
    func toSwiftStructName() -> String {
       return self.split(separator: " ")
          .map(String.init)
-         .map({ $0.uppercaseFirstLetter() })
+         .map(String.uppercasedFirstLetter)
          .joined(separator: "")
    }
 
